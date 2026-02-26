@@ -1,0 +1,18 @@
+# Coolify-safe override: do not publish 80/443 so Coolify's proxy can own them.
+# Deploy with: docker compose -f docker-compose.yml -f docker-compose.coolify.yml up -d
+# In Coolify: set compose files to "docker-compose.yml,docker-compose.coolify.yml" (or equivalent).
+
+version: '3.3'
+
+services:
+  front:
+    ports:
+      # Web (80/443) omitted – Coolify reverse proxy will route to this container on port 80 internally
+      - "0.0.0.0:25:25"
+      - "0.0.0.0:465:465"
+      - "0.0.0.0:587:587"
+      - "0.0.0.0:110:110"
+      - "0.0.0.0:995:995"
+      - "0.0.0.0:143:143"
+      - "0.0.0.0:993:993"
+      - "0.0.0.0:4190:4190"
