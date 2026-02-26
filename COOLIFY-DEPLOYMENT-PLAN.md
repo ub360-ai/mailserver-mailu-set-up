@@ -146,12 +146,12 @@ To deploy Mailu on the **same host** as Coolify's proxy without port conflicts, 
 
 | File | Purpose |
 |------|--------|
-| `mailu/docker-compose.coolify.yml` | Override that **removes 80 and 443** from the `front` container and **keeps** 25, 465, 587, 110, 995, 143, 993, 4190. No port conflict with Coolify. |
+| `mailu/docker-compose.yml` | **Coolify-safe:** 80/443 are not published; only mail ports (25, 465, 587, 110, 995, 143, 993, 4190) are. One file, no override needed. |
 | `mailu/mailu.env` | Optional `REAL_IP_HEADER` / `REAL_IP_FROM` (commented) for when web traffic goes through Coolify's proxy. |
 
 ### Deploy steps on Coolify
 
-1. **Compose files** – In the Coolify service, set compose file(s) so the override is used: e.g. `docker-compose.yml,docker-compose.coolify.yml`. If Coolify only allows one file, merge the override's `front.ports` into `docker-compose.yml` (no 80/443).
+1. **Compose file** – Use the single `mailu/docker-compose.yml` (it already omits 80/443 for Coolify; no second file needed).
 2. **Route web to Mailu** – Add domain `mail.swiftloopmarketing.com` and set target to `front` container, port **80** (internal). Coolify routes 80/443 to `front:80`.
 3. **Let's Encrypt** – Coolify can issue the cert for the web UI. For mail (IMAP/SMTP) TLS either: (A) ensure Coolify forwards `/.well-known/acme-challenge/` to `front` so Mailu can use HTTP-01 and keep `TLS_FLAVOR=letsencrypt`, or (B) use Coolify's cert and mount into `/mailu/certs` with `TLS_FLAVOR=cert`.
 4. **Real client IP** – Uncomment `REAL_IP_HEADER` and `REAL_IP_FROM` in `mailu.env` (e.g. `REAL_IP_FROM=172.16.0.0/12`).

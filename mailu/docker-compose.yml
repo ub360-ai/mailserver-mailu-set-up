@@ -3,6 +3,7 @@ version: '3.3'
 services:
 
   # External-facing reverse proxy for TLS and port management
+  # 80/443 not published: Coolify's proxy owns them and routes to front:80 internally
   front:
     image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}nginx:${MAILU_VERSION:-2024.06}
     restart: always
@@ -10,8 +11,6 @@ services:
     logging:
       driver: json-file
     ports:
-      - "0.0.0.0:80:80"
-      - "0.0.0.0:443:443"
       - "0.0.0.0:25:25"
       - "0.0.0.0:465:465"
       - "0.0.0.0:587:587"
