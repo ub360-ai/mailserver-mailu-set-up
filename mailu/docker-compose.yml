@@ -5,7 +5,7 @@ services:
   # External-facing reverse proxy for TLS and port management
   # 80/443 not published: Coolify's proxy owns them and routes to front:80 internally
   front:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}nginx:${MAILU_VERSION:-2024.06}
+    image: ghcr.io/mailu/nginx:2024.06
     restart: always
     env_file: mailu.env
     logging:
@@ -27,7 +27,7 @@ services:
 
   # Internal DNS resolver to prevent leak of internal queries
   resolver:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}unbound:${MAILU_VERSION:-2024.06}
+    image: ghcr.io/mailu/unbound:2024.06
     restart: always
     env_file: mailu.env
     networks:
@@ -35,7 +35,7 @@ services:
 
   # Administration interface
   admin:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}admin:${MAILU_VERSION:-2024.06}
+    image: ghcr.io/mailu/admin:2024.06
     restart: always
     env_file: mailu.env
     volumes:
@@ -46,7 +46,7 @@ services:
 
   # IMAP and POP3 server
   imap:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}dovecot:${MAILU_VERSION:-2024.06}
+    image: ghcr.io/mailu/dovecot:2024.06
     restart: always
     env_file: mailu.env
     volumes:
@@ -57,7 +57,7 @@ services:
 
   # SMTP server
   smtp:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}postfix:${MAILU_VERSION:-2024.06}
+    image: ghcr.io/mailu/postfix:2024.06
     restart: always
     env_file: mailu.env
     volumes:
@@ -68,7 +68,7 @@ services:
 
   # Antispam engine (Rspamd)
   antispam:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}rspamd:${MAILU_VERSION:-2024.06}
+    image: ghcr.io/mailu/rspamd:2024.06
     restart: always
     env_file: mailu.env
     volumes:
@@ -79,7 +79,7 @@ services:
 
   # Web branding and static files (optional, but good for UI)
   webmail:
-    image: ${DOCKER_ORG:-mailu}/${DOCKER_PREFIX:-}roundcube:${MAILU_VERSION:-2024.06}
+    image: ghcr.io/mailu/roundcube:2024.06
     restart: always
     env_file: mailu.env
     volumes:
