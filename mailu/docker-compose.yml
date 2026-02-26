@@ -79,7 +79,7 @@ services:
 
   # Web branding and static files (optional, but good for UI)
   webmail:
-    image: ghcr.io/mailu/roundcube:2024.06
+    image: ghcr.io/mailu/webmail:2024.06
     restart: always
     env_file: mailu.env
     volumes:
